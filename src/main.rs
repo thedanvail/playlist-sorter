@@ -1,8 +1,5 @@
 mod parser;
 
-use rayon::prelude::*;
-=======
-use anyhow::Context;
 use cli::models::Options;
 
 mod cli;

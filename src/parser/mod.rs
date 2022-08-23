@@ -1,8 +1,8 @@
 pub mod line;
 pub mod parse;
-mod media_data;
-mod stream_info;
-mod i_frame_stream_info_data;
+pub mod media_data;
+pub mod stream_info;
+pub mod i_frame_stream_info_data;
 
 use std::collections::HashMap;
 use anyhow::{Context, Result};
@@ -50,4 +50,11 @@ impl Parser {
             format!("Map did not contain value of {}", field)
         })
     }
+}
+
+pub fn parse_text(text: String) -> HashMap<String, Vec<String>> {
+    let splits = text
+                    .split('\n')
+                    .map(|x| std::string::String::from(x))
+                    .collect::<Vec<String>>();
 }

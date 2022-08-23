@@ -1,6 +1,6 @@
 pub mod models;
 
-use clap::{arg, command, ArgGroup, ArgMatches, Command, ValueEnum};
+use clap::{arg, Command};
 
 pub fn cli() -> Command<'static> {
     Command::new("M3U Parser")
