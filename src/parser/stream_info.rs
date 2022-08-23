@@ -7,7 +7,7 @@ use anyhow::Result;
 
 const TYPE_HEADER: &str = "#EXT-X-STREAM-INF:";
 
-struct StreamInfoData {
+pub struct StreamInfoData {
     bandwidth: i32,
     average_bandwidth: i32,
     codecs:Vec<String>,

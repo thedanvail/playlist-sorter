@@ -4,6 +4,7 @@ use cli::models::Options;
 
 mod cli;
 mod utils;
+mod sorting;
 
 fn main() {
     let matches = cli::cli().get_matches();

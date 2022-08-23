@@ -18,8 +18,9 @@ pub fn read_file(uri: &String) -> Result<String> {
 }
 
 pub fn get_remote_file(uri: &String) -> Result<String> {
-    match reqwest::blocking::get(uri) {
-        Ok(resp) => resp.text().with_context(|| format!("Failed to unwrap response from {}", uri)),
-        Err(resp) => Err(anyhow!("Received a response from server: {}", resp)),
-    }
+    Ok(String::from("f"))
+    // match reqwest::blocking::get(uri) {
+    //     Ok(resp) => resp.text().with_context(|| format!("Failed to unwrap response from {}", uri)),
+    //     Err(resp) => Err(anyhow!("Received a response from server: {}", resp)),
+    // }
 }

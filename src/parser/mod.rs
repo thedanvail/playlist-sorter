@@ -52,9 +52,9 @@ impl Parser {
     }
 }
 
-pub fn parse_text(text: String) -> HashMap<String, Vec<String>> {
-    let splits = text
-                    .split('\n')
-                    .map(|x| std::string::String::from(x))
-                    .collect::<Vec<String>>();
-}
+// pub fn parse_text(text: String) -> HashMap<String, Vec<String>> {
+//     let splits = text
+//                     .split('\n')
+//                     .map(|x| std::string::String::from(x))
+//                     .collect::<Vec<String>>();
+// }

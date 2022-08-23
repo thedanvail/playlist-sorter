@@ -1,42 +1,18 @@
 use std::str::FromStr;
+use crate::sorting::SortOptions;
 
 pub struct Options {
     content: String,
-    sort: Option<Sort>,
+    sort: Option<SortOptions>,
     output: Option<String>
 }
 
 impl Options {
     pub fn new(
         contents: String,
-        sorting_method: Option<Sort>,
+        sorting_method: Option<SortOptions>,
         output_path: Option<String>
     ) -> Self {
         Self { content: contents, sort: sorting_method, output: output_path }
-    }
-}
-
-#[derive(Clone)]
-pub enum Sort {
-    Resolution,
-    Bandwidth
-}
-
-fn sort_to_string() -> String {
-    String::from("Resolution, Bandwidth")
-}
-
-impl FromStr for Sort {
-    type Err = clap::Error;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s.to_uppercase().as_str() {
-            "RESOLUTION" => Ok(Self::Resolution),
-            "BANDWIDTH" => Ok(Self::Bandwidth),
-            _ => Err(clap::Error::raw(
-                clap::ErrorKind::UnknownArgument,
-                format!("Valid sort options are {}", sort_to_string())
-            ))
-        }
     }
 }
