@@ -20,6 +20,8 @@ fn sort_options_to_string() -> String {
 impl FromStr for SortOptions {
     type Err = clap::Error;
 
+    /// Converts the `&str` into a `Result<SortOptions, Err>`. This can be updated later as
+    /// we add support for more types of sorting.
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.to_uppercase().as_str() {
             "RESOLUTION" => Ok(Self::Resolution),
@@ -32,7 +34,8 @@ impl FromStr for SortOptions {
     }
 }
 
-/// Detects the type of sorting
+/// Detects the type of sorting the user is requesting, and then passes that onto the
+/// underlying struct that implements `Sort`.
 pub fn sort<T: Sort + Display>(lines: &mut [Line<T>], sort_option: &SortOptions) {
     match sort_option {
         SortOptions::Resolution => {

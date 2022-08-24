@@ -6,6 +6,7 @@ pub struct Options {
     pub output: Option<String>
 }
 
+/// Simple struct for holding command args/program options
 impl Options {
     pub fn new(
         content_path: &String,

@@ -18,6 +18,8 @@ pub struct MediaData {
 }
 
 impl Parse for MediaData {
+    /// Parses the data from the string and stores it in a HashMap for easier consumption and
+    /// creation of the struct
     fn from_string(contents: String) -> Result<Box<Self>> {
         let mut fields: HashMap<String, String> = HashMap::new();
         let cleaned_contents = contents.replace(&headers::MEDIA_DATA, "");

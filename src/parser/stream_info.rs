@@ -21,6 +21,8 @@ pub struct StreamInfoData {
 }
 
 impl Parse for StreamInfoData {
+    /// Parses the data from the string and stores it in a HashMap for easier consumption and
+    /// creation of the struct
     fn from_string(contents: String) -> Result<Box<StreamInfoData>> {
         let mut fields: HashMap<String, String> = std::collections::HashMap::new();
         let cleaned_contents = contents.replace(&headers::STREAM_INFO_DATA, "");
@@ -57,6 +59,8 @@ impl Parse for StreamInfoData {
     }
 }
 
+/// The two sorting options we currently have for our various lines and fields.
+/// For more info, please see [std::cmp::Ord](https://doc.rust-lang.org/std/cmp/trait.Ord.html).
 impl Sort for StreamInfoData {
     fn compare_resolution(&self, other: &Self) -> Ordering {
         let (x, y) = self.resolution;

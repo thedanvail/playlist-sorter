@@ -16,6 +16,8 @@ pub struct IFrameStreamInfoData {
 }
 
 impl Parse for IFrameStreamInfoData {
+    /// Parses the data from the string and stores it in a HashMap for easier consumption and
+    /// creation of the struct
     fn from_string(contents: String) -> Result<Box<Self>> {
         let mut fields: HashMap<String, String> = HashMap::new();
         let cleaned_contents = contents.replace(&headers::I_FRAME_STREAM, "");
@@ -42,12 +44,14 @@ impl Parse for IFrameStreamInfoData {
     }
 }
 
+/// The two sorting options we currently have for our various lines and fields.
+/// For more info, please see [std::cmp::Ord](https://doc.rust-lang.org/std/cmp/trait.Ord.html).
 impl Sort for IFrameStreamInfoData {
     fn compare_resolution(&self, other: &Self) -> Ordering {
         let (x, y) = self.resolution;
-        let total_resolution = x * y;
+        let total_resolution = x + y;
         let (other_x, other_y) = other.resolution;
-        let other_total_resolution = other_x * other_y;
+        let other_total_resolution = other_x + other_y;
         total_resolution.cmp(&other_total_resolution)
     }
 

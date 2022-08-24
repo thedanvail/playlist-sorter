@@ -1,15 +1,15 @@
-mod parser;
-
 use std::str::FromStr;
+
+mod parser;
+mod cli;
+mod utils;
+mod sorting;
+
 use cli::models::Options;
 use crate::parser::i_frame_stream_info_data::IFrameStreamInfoData;
 use crate::parser::media_data::MediaData;
 use crate::parser::stream_info::StreamInfoData;
 use crate::sorting::SortOptions;
-
-mod cli;
-mod utils;
-mod sorting;
 
 fn main() {
     let matches = cli::cli().get_matches();
@@ -34,6 +34,7 @@ fn main() {
     dispatch_options(options);
 }
 
+/// The driver (or, the real tofu and potatoes)
 fn dispatch_options(options: Options) {
     let content = utils::read_file(&options.content_path).unwrap();
     let (
