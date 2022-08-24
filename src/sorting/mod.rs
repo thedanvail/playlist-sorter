@@ -1,3 +1,8 @@
+pub mod sort;
+
+use sort::Sort;
+
+use std::fmt::Display;
 use std::str::FromStr;
 use crate::parser::line::Line;
 use anyhow::Result;
@@ -8,7 +13,7 @@ pub enum SortOptions {
     Bandwidth
 }
 
-fn sort_to_string() -> String {
+fn sort_options_to_string() -> String {
     String::from("Resolution, Bandwidth")
 }
 
@@ -21,19 +26,20 @@ impl FromStr for SortOptions {
             "BANDWIDTH" => Ok(Self::Bandwidth),
             _ => Err(clap::Error::raw(
                 clap::ErrorKind::UnknownArgument,
-                format!("Valid sort options are {}", sort_to_string())
+                format!("Valid sort options are {}", sort_options_to_string())
             ))
         }
     }
 }
 
-pub fn sort<T>(lines: Vec<Line<T>>, sort_option: SortOptions) -> Result<Vec<Line<T>>> {
+/// Detects the type of sorting
+pub fn sort<T: Sort + Display>(lines: &mut [Line<T>], sort_option: &SortOptions) {
     match sort_option {
         SortOptions::Resolution => {
-            let mut sorted = lines.clone();
+            lines.sort_by(|a, b| a.data.compare_resolution(&b.data))
         },
         SortOptions::Bandwidth => {
-
+            lines.sort_by(|a, b| a.data.compare_bandwidth(&b.data))
         }
     };
 }

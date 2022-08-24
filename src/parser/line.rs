@@ -1,56 +1,55 @@
+use std::fmt;
+use std::fmt::Formatter;
+
 use crate::parser::{
     media_data::MediaData,
     stream_info::StreamInfoData,
     i_frame_stream_info_data::IFrameStreamInfoData,
-    parse::Parse
+    parse::Parse,
+    headers
 };
 
-#[derive(PartialOrd, Ord, PartialEq, Eq, Clone)]
-pub struct Line<'a, T> {
-    header: &'a str,
-    data: Option<Box<T>>
+/// The following allows us to make the type of line generic so long as we enforce them all
+/// implementing the same trait - in this case, Display, for the sake of potentially using
+/// trait objects where necessary (which it is not at this time).
+#[derive(PartialOrd, Ord, PartialEq, Eq, Clone, Debug)]
+pub struct Line<T>
+where
+    T: fmt::Display
+{
+    header: String,
+    pub data: Box<T>
 }
 
-impl Line<'_, MediaData> {
+impl Line<MediaData> {
     pub fn media_data(data: String) -> Self {
         Self {
-            header: "#EXT-X-MEDIA",
-            data: Some(MediaData::from_string(data).unwrap())
+            header: String::from(headers::MEDIA_DATA),
+            data: MediaData::from_string(data).unwrap()
         }
     }
 }
 
-impl Line<'_, StreamInfoData> {
+impl Line<StreamInfoData> {
     pub fn stream_info_data(data: String) -> Self {
         Self {
-            header: "#EXT-X-STREAM-INF:",
-            data: Some(StreamInfoData::from_string(data).unwrap())
+            header: String::from(headers::STREAM_INFO_DATA),
+            data: StreamInfoData::from_string(data).unwrap()
         }
     }
 }
 
-impl Line<'_, IFrameStreamInfoData> {
+impl Line<IFrameStreamInfoData> {
     pub fn i_frame_stream_info_data(data: String) -> Self {
         Self {
-            header: "#EXT-X-I-FRAME-STREAM-INF:",
-            data: Some(IFrameStreamInfoData::from_string(data).unwrap())
+            header: String::from(headers::I_FRAME_STREAM),
+            data: IFrameStreamInfoData::from_string(data).unwrap()
         }
     }
 }
 
-impl<T> Line<'_, T> {
-    pub fn new(header: &str) -> Self {
-        Self {
-            header,
-            data: None
-        }
+impl<T: fmt::Display> fmt::Display for Line<T> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{}{}", self.header, self.data)
     }
-}
-
-pub enum Headers {
-    M3U,
-    IndependentSegments,
-    Media(String),
-    StreamInfo(String),
-    IFrameStreamInfo(String)
 }
